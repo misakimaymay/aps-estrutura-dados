@@ -10,7 +10,7 @@ Este projeto é uma coleção de implementações de estruturas de dados clássi
 - **adp.cs**: Provavelmente contém algoritmos ou funções auxiliares.
 - **matriz.cs**: Implementação e manipulação de matrizes.
 - **vetor.cs**: Implementação e manipulação de vetores.
-- **Listas/**: Diretório que pode conter implementações de listas simples, duplamente encadeadas, circulares, etc.
+- **Listas/**: Diretório que contém implementações de listas simples, dinâmica e estática.
 
 ---
 
