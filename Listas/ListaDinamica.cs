@@ -1,226 +1,115 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.Mime;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PointerList
+namespace ListaDinamica
 {
-    class Node
-    {
-        public char Value;
-        public Node Next;
-
-        public Node(char value)
+        public class ListaDinamica<T> where T : IComparable<T>
         {
-            Value = value;
-            Next = null;
-        }
-    }
+            private List<T> elementos;
 
-    class DynamicList
-    {
-        private Node start;
-        public DynamicList()
-        {
-            start = null;
-        }
-
-        public void Insert(char value)
-        {
-            Node newNode = new Node(value);
-            if (start == null)
+            public ListaDinamica()
             {
-                start = newNode;
+                elementos = new List<T>();
+            }
+            public void Inserir(T valor)
+            {
+                elementos.Add(valor);
+            }
+            public void Exibir()
+            {
+                if (elementos.Count == 0)
+                {
+                    Console.WriteLine("Lista vazia.");
+                    return;
+                }
+                Console.Write("Lista: ");
+                foreach (var item in elementos)
+                {
+                    Console.Write($"{item}" + " ");
+                }
+                Console.WriteLine();
+            }
+            public int BuscaSequencial(T valor)
+            {
+                for (int i = 0; i < elementos.Count; i++)
+                {
+                    if (elementos[i].CompareTo(valor) == 0)
+                    {
+                        return i;
+                    }
+                }
+                return 0;
+            }
+            public int BuscaBinaria(T valor)
+            {
+                int inicio = 0;
+                int fim = elementos.Count - 1;
+
+                while (inicio <= fim)
+                {
+                    int meio = (inicio + fim) / 2;
+
+                    if (elementos[meio].CompareTo(valor) == 0)
+                    {
+                        return meio;
+                    }
+                    if (elementos[meio].CompareTo(valor) > 0)
+                    {
+                        fim = meio - 1;
+                    }
+                    else
+                    {
+                        inicio = meio + 1;
+                    }
+                }
+                return -1;
+            }
+        }
+    public class Program
+    { 
+        static void Main(string[] args)
+        {
+        Console.WriteLine("Digite a quantidade de elementos da lista: ");
+        int n = int.Parse(Console.ReadLine());
+
+        ListaDinamica<int> lista = new ListaDinamica<int>();
+
+        for (int i = 0; i < n; i++)
+        {
+        Console.WriteLine($"Digite o {i + 1} elemento: ");
+        int valor = int.Parse(Console.ReadLine());
+        lista.Inserir(valor);
+        }
+
+        lista.Exibir();
+
+            Console.WriteLine("Digite o elemento a ser buscado: ");
+            int elementoBuscado = int.Parse(Console.ReadLine());
+
+            int resultadoSequencial = lista.BuscaSequencial(elementoBuscado);
+
+            if (resultadoSequencial != -1)
+            {
+                Console.WriteLine($"Elemento {elementoBuscado} encontrado na posição {resultadoSequencial}");
             }
             else
             {
-                Node current = start;
-                while (current.Next != null)
-                {
-                    current = current.Next;
-                }
-                current.Next = newNode;
-            }
-        }
-
-        public void InsertAtPosition(int position, char value)
-        {
-            Node newNode = new Node(value);
-            if (position == 0)
-            {
-                newNode.Next = start;
-                start = newNode;
-                return;
+                Console.WriteLine($"Elemento {elementoBuscado} não encontrado (Busca Sequencial)");
             }
 
-            Node current = start;
-            for (int i = 0; i < position - 1; i++)
-            {
-                if (current == null)
-                {
-                    Console.WriteLine("Invalid position!");
-                    return;
-                }
-                current = current.Next;
-            }
-            if (current == null)
-            {
-                Console.WriteLine("Invalid position!");
-                return;
-            }
-            newNode.Next = current.Next;
-            current.Next = newNode;
-        }
+            int resultadoBinario = lista.BuscaBinaria(elementoBuscado);
 
-        public void Remove(int position)
-        {
-            if (start == null)
+            if (resultadoBinario != -1)
             {
-                Console.WriteLine("List is empty!");
-                return;
+                Console.WriteLine($"Elemento {elementoBuscado} encontrado na posição {resultadoBinario}");
             }
-            if (position == 0)
+            else
             {
-                start = start.Next;
-                return;
+                Console.WriteLine($"Elemento {elementoBuscado} não encontrado (Busca Binária)");
             }
-            Node current = start;
-            for (int i = 0; i < position - 1; i++)
-            {
-                if (current.Next == null)
-                {
-                    Console.WriteLine("Invalid position!");
-                    return;
-                }
-                current = current.Next;
-            }
-            if (current.Next == null)
-            {
-                Console.WriteLine("Invalid position!");
-                return;
-            }
-            current.Next = current.Next.Next;
-        }
-
-        public void Display()
-        {
-            if (start == null)
-            {
-                Console.WriteLine("List is empty!");
-                return;
-            }
-
-            Console.Write("List: ");
-            Node current = start;
-            while (current != null)
-            {
-                Console.Write(current.Value + " ");
-                current = current.Next;
-            }
-            Console.WriteLine();
-        }
-
-        public char ElementAtPosition(int position)
-        {
-            Node current = start;
-            int count = 0;
-
-            while (current != null)
-            {
-                if (count == position)
-                {
-                    return current.Value;
-                }
-                current = current.Next;
-                count++;
-            }
-            Console.WriteLine("Invalid position!");
-            return '\0';
-        }
-
-        public int Size()
-        {
-            int count = 0;
-            Node current = start;
-            while (current != null)
-            {
-                count++;
-                current = current.Next;
-            }
-            return count;
-        }
-
-        public bool Empty()
-        {
-            return start == null;
-        }
-    }
-
-    internal class Program
-    {
-        static void Main(string[] args)
-        {
-            DynamicList list = new DynamicList();
-            int option;
-            char value;
-            int position;
-
-            do
-            {
-                Console.WriteLine("Dynamic Linked List");
-                Console.WriteLine("0 Exit");
-                Console.WriteLine("1 Insert");
-                Console.WriteLine("2 Insert at specific position");
-                Console.WriteLine("3 Remove by position");
-                Console.WriteLine("4 Size");
-                Console.WriteLine("5 Display list");
-                Console.WriteLine("6 Display item at specific position");
-                Console.WriteLine("Choose an option");
-                option = int.Parse(Console.ReadLine());
-
-                switch (option)
-                {
-                    case 0:
-                        Console.WriteLine("Exiting...");
-                        break;
-                    case 1:
-                        Console.WriteLine("Enter value");
-                        value = Console.ReadKey().KeyChar;
-                        Console.WriteLine();
-                        list.Insert(value);
-                        break;
-                    case 2:
-                        Console.WriteLine("Enter position");
-                        position = int.Parse(Console.ReadLine());
-                        Console.WriteLine("Enter value");
-                        value = Console.ReadKey().KeyChar;
-                        Console.WriteLine();
-                        list.InsertAtPosition(position, value);
-                        break;
-                    case 3:
-                        Console.WriteLine("Enter position to remove");
-                        position = int.Parse(Console.ReadLine());
-                        list.Remove(position);
-                        break;
-                    case 4:
-                        Console.WriteLine("Current size: " + list.Size());
-                        break;
-                    case 5:
-                        list.Display();
-                        break;
-                    case 6:
-                        Console.WriteLine("Enter position");
-                        position = int.Parse(Console.ReadLine());
-                        value = list.ElementAtPosition(position);
-                        Console.WriteLine("Element: " + value);
-                        break;
-                    default:
-                        break;
-                }
-            }
-            while (option != 0);
         }
     }
 }
