@@ -1,0 +1,7 @@
+C:\Users\Aluno\source\repos\DataSort\DataSort\bin\Debug\DataSort.exe.config
+C:\Users\Aluno\source\repos\DataSort\DataSort\bin\Debug\DataSort.exe
+C:\Users\Aluno\source\repos\DataSort\DataSort\bin\Debug\DataSort.pdb
+C:\Users\Aluno\source\repos\DataSort\DataSort\obj\Debug\DataSort.csproj.AssemblyReference.cache
+C:\Users\Aluno\source\repos\DataSort\DataSort\obj\Debug\DataSort.csproj.CoreCompileInputs.cache
+C:\Users\Aluno\source\repos\DataSort\DataSort\obj\Debug\DataSort.exe
+C:\Users\Aluno\source\repos\DataSort\DataSort\obj\Debug\DataSort.pdb
